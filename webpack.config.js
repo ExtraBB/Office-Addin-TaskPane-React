@@ -18,8 +18,6 @@ module.exports = async (env, options) => {
   const config = {
     devtool: "source-map",
     entry: {
-      polyfill: ["core-js/stable", "regenerator-runtime/runtime"],
-      vendor: ["react", "react-dom", "@fluentui/react"],
       taskpane: ["./src/taskpane/index.tsx", "./src/taskpane/taskpane.html"],
       commands: "./src/commands/commands.ts",
     },
@@ -32,12 +30,12 @@ module.exports = async (env, options) => {
     module: {
       rules: [
         {
-          test: /\.ts$/,
-          exclude: /node_modules/,
+          test: /\.(j|t)sx?$/,
+          exclude: /@babel(?:\/|\\{1,2})runtime|core-js/,
           use: {
             loader: "babel-loader",
             options: {
-              presets: ["@babel/preset-typescript"],
+              presets: [["@babel/preset-typescript", { corejs: 3, useBuiltIns: "entry" }]],
             },
           },
         },
@@ -83,8 +81,7 @@ module.exports = async (env, options) => {
       new HtmlWebpackPlugin({
         filename: "taskpane.html",
         template: "./src/taskpane/taskpane.html",
-        chunksSortMode: "manual",
-        chunks: ["polyfill", "vendor", "taskpane"],
+        chunks: ["taskpane"],
       }),
       new HtmlWebpackPlugin({
         filename: "commands.html",

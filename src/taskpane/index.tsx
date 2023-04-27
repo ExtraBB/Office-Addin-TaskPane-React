@@ -1,7 +1,7 @@
 import App from "./components/App";
 import { initializeIcons } from "@fluentui/font-icons-mdl2";
-import { ThemeProvider } from "@fluentui/react";
-import * as React from "react";
+import { ThemeProvider } from "@fluentui/react/lib/Theme";
+import React from "react";
 import { createRoot } from "react-dom/client";
 
 /* global document, Office, module, require */
